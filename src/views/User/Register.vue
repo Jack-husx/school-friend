@@ -38,6 +38,13 @@
         </button>
       </div>
 
+      <!-- 验证码区域 -->
+      <div class="captcha">
+        <canvas ref="captchaCanvas" width="120" height="40"></canvas>
+        <button type="button" class="refresh-btn" @click="generateCaptcha">刷新</button>
+        <input type="text" placeholder="请输入验证码" v-model.trim="captchaInput" />
+      </div>
+
       <!-- 勾选框区域 -->
       <div class="checkbox-container">
         <input type="checkbox" id="agreement" v-model="agreed" />
@@ -63,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const username = ref('');
 const nickname = ref('');
@@ -72,6 +79,9 @@ const confirmPassword = ref('');
 const year = ref('');
 const identity = ref('');
 const agreed = ref(false);
+const captchaInput = ref('');
+const captchaCode = ref('');
+const captchaCanvas = ref(null);
 
 // 生成 1970~2030 的下拉选项
 const yearRange = Array.from({ length: 2030 - 1970 + 1 }, (_, i) => 1970 + i);
@@ -80,6 +90,56 @@ const yearRange = Array.from({ length: 2030 - 1970 + 1 }, (_, i) => 1970 + i);
 const modalVisible = ref(false);
 const modalTitle = ref('');
 const modalContent = ref('');
+
+const generateCaptcha = () => {
+  // 生成4位随机验证码（字母+数字）
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 4; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  captchaCode.value = code;
+
+  // 绘制到canvas
+  const ctx = captchaCanvas.value.getContext('2d');
+  ctx.clearRect(0, 0, 120, 40);
+  
+  // 背景
+  ctx.fillStyle = '#f9f9f9';
+  ctx.fillRect(0, 0, 120, 40);
+  
+  // 绘制文字
+  ctx.font = 'bold 28px Arial';
+  ctx.fillStyle = '#333';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < code.length; i++) {
+    ctx.save();
+    ctx.translate(20 + i * 25, 20);
+    ctx.rotate((Math.random() - 0.5) * 0.3); // 轻微旋转
+    ctx.fillText(code[i], 0, 0);
+    ctx.restore();
+  }
+  
+  // 添加干扰线
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(Math.random() * 120, Math.random() * 40);
+    ctx.lineTo(Math.random() * 120, Math.random() * 40);
+    ctx.strokeStyle = `hsl(${Math.random() * 360}, 50%, 70%)`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  
+  // 添加干扰点
+  for (let i = 0; i < 30; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random() * 120, Math.random() * 40, 1, 0, 2 * Math.PI);
+    ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 70%)`;
+    ctx.fill();
+  }
+};
+
+onMounted(generateCaptcha);
 
 const handleSubmit = () => {
   if (!username.value) {
@@ -110,6 +170,16 @@ const handleSubmit = () => {
     alert('请选择身份');
     return;
   }
+  if (!captchaInput.value) {
+    alert('请输入验证码');
+    return;
+  }
+  if (captchaInput.value.toUpperCase() !== captchaCode.value) {
+    alert('验证码错误');
+    captchaInput.value = '';
+    generateCaptcha();
+    return;
+  }
   if (!agreed.value) {
     alert('请先阅读并同意 用户协议 和 隐私政策');
     return;
@@ -122,10 +192,10 @@ const handleSubmit = () => {
 const showAgreement = (type) => {
   if (type === 'user') {
     modalTitle.value = '用户协议';
-    modalContent.value = '这里是用户协议的内容...'; 
+    modalContent.value = '这里是用户协议的内容...'; // 可替换为实际内容
   } else if (type === 'privacy') {
     modalTitle.value = '隐私政策';
-    modalContent.value = '这里是隐私政策的内容...'; 
+    modalContent.value = '这里是隐私政策的内容...'; // 可替换为实际内容
   }
   modalVisible.value = true;
 };
@@ -192,6 +262,32 @@ input:focus {
 }
 .identity button:hover {
   background: #f1f1f1;
+}
+
+/* 验证码样式 */
+.captcha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.captcha canvas {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+.captcha input {
+  flex: 1;
+}
+.refresh-btn {
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.refresh-btn:hover {
+  background: #e0e0e0;
 }
 
 /* 复选框 */

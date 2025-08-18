@@ -1,10 +1,11 @@
+<!-- Updated MediaPlayer.vue -->
 <template>
   <div class="media-player">
-    <video v-if="isVideo" controls>
+    <video v-if="isVideo" controls class="media-element">
       <source :src="mediaSrc" type="video/mp4" />
       你的浏览器不支持视频标签。
     </video>
-    <audio v-else controls>
+    <audio v-else controls class="media-element">
       <source :src="mediaSrc" type="audio/mpeg" />
       你的浏览器不支持音频标签。
     </audio>
@@ -28,15 +29,16 @@ const props = defineProps({
 
 <style scoped>
 .media-player {
-  margin: 20px auto; /* 上下各20px，左右自动居中 */
-  text-align: center;
-  background: transparent; /* 去掉背景 */
-  max-width: 80%; /* 设置最大宽度为 80% */
+  width: 100%; /* 填充父容器 */
+  height: 100%; /* 填充父容器高度 */
+  position: relative; /* 相对定位以支持绝对子元素 */
 }
 
-.media-player video,
-.media-player audio {
-  width: 80%; /* 宽度为 100% */
-  height: auto; /* 高度自适应 */
+.media-element {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 保持比例填充，避免裁剪；如果想覆盖黑边可改成 cover */
+  border-radius: 16px; /* 与wrapper一致 */
+  background: #000; /* 黑底防止白边 */
 }
 </style>
