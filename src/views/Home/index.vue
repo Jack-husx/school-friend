@@ -1,8 +1,9 @@
 <script setup>
-import Banner from '../../components/business/Banner.vue'
-import NewsCard from '../../components/business/NewsCard.vue'
-import UserProfile from '../../components/business/UserProfile.vue'
-import Clock from '../../components/business/Clock.vue'
+import Banner from '../../components/business/Banner.vue';
+import NewsCard from '../../components/business/NewsCard.vue';
+import UserProfile from '../../components/business/UserProfile.vue';
+import Clock from '../../components/business/Clock.vue';
+import MediaPlayer from '../../components/business/MediaPlayer.vue';
 </script>
 
 <template>
@@ -23,6 +24,9 @@ import Clock from '../../components/business/Clock.vue'
         </div>
       </div>
     </div>
+    <div class="video-wrapper">
+        <MediaPlayer mediaSrc="../public/media/qzzg.mp4" :isVideo="true" class="media-player" />
+      </div>
   </div>
 </template>
 
@@ -72,4 +76,12 @@ import Clock from '../../components/business/Clock.vue'
   align-items: center;
   justify-content: center;
 }
+.video-wrapper {
+  width: 100%; /* 视频容器宽度 */
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  margin-top: 30px; /* 增加顶部间距 */
+  padding: 0 10px; /* 添加左右内边距 */
+}
+
 </style>

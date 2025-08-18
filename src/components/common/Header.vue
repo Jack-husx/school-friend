@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="logo">
-      <el-icon style="vertical-align: middle; margin-right: 8px;">
+      <el-icon style="vertical-align: middle; margin-right: 10px;">
         <School />
       </el-icon>
       <span>闻一多中学校友网</span>
@@ -35,7 +35,7 @@ import { School } from '@element-plus/icons-vue'
 }
 .logo {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 30px;
   display: flex;
   align-items: center;
 }
@@ -48,9 +48,9 @@ nav {
 nav a {
   color: #222;
   text-decoration: none;
-  font-size: 16px;
-  padding: 4px 12px;
-  border-radius: 4px;
+  font-size: 25px; /* 增大文字大小 */
+  padding: 5px 12px;
+  border-radius: 5px;
   transition: background 0.2s;
 }
 nav a.router-link-active {
