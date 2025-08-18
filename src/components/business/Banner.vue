@@ -27,7 +27,7 @@ const images = ref([banner1, banner2, banner3])
 
 <style scoped>
 .banner-carousel {
-  width: 900px;
+  width: 1100px;
   margin: 30px auto 20px auto;
   border-radius: 8px;
   overflow: hidden;
@@ -37,7 +37,7 @@ const images = ref([banner1, banner2, banner3])
 }
 .banner-img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
   display: block;
 }

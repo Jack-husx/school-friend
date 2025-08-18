@@ -31,6 +31,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/User/Register.vue')
+  },
+  {
+    path: '/forgot-password',   // 🔑 新增忘记密码路由
+    name: 'ForgotPassword',
+    component: () => import('../views/User/ForgotPassword.vue')
   }
 ]
 
