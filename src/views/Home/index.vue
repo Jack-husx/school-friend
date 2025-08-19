@@ -78,7 +78,7 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
             </div>
             <div class="video-player-wrapper">
             <MediaPlayer 
-              mediaSrc="/videos/qzzg.mp4" 
+              mediaSrc="/media/qzzg.mp4" 
               :isVideo="true" 
             class="media-player" 
             />
