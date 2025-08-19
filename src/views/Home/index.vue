@@ -1,65 +1,57 @@
-<script setup>
-import Banner from '../../components/business/Banner.vue';
-import NewsCard from '../../components/business/NewsCard.vue';
-import UserProfile from '../../components/business/UserProfile.vue';
-import Clock from '../../components/business/Clock.vue';
-import MediaPlayer from '../../components/business/MediaPlayer.vue';
-</script>
-
 <template>
-  <div class="home">
+  <div class="home-page">
     <!-- 顶部横幅区域 -->
-    <div class="banner-section">
+    <section class="banner-section">
       <div class="banner-wrapper">
         <Banner />
       </div>
-    </div>
+    </section>
 
     <!-- 主要内容区域 -->
-    <div class="main-content">
+    <section class="main-content">
       <div class="container">
         <!-- 功能卡片区域 -->
         <div class="cards-grid">
           <!-- 时钟卡片 -->
-          <div class="card clock-card">
-            <div class="card-header">
+          <article class="card clock-card">
+            <header class="card-header">
               <h3 class="card-title">
                 <span class="icon">⏰</span>
                 当前时间
               </h3>
-            </div>
+            </header>
             <div class="card-body">
               <Clock />
             </div>
-          </div>
+          </article>
 
           <!-- 校园通知卡片 -->
-          <div class="card notification-card">
-            <div class="card-header">
+          <article class="card notification-card">
+            <header class="card-header">
               <h3 class="card-title">
                 <span class="icon">📢</span>
                 校园通知
               </h3>
               <div class="card-badge">最新</div>
-            </div>
+            </header>
             <div class="card-body">
               <NewsCard />
             </div>
-          </div>
+          </article>
 
           <!-- 用户信息卡片 -->
-          <div class="card profile-card">
-            <div class="card-header">
+          <article class="card profile-card">
+            <header class="card-header">
               <h3 class="card-title">
                 <span class="icon">👤</span>
                 校友信息
               </h3>
               <div class="card-badge online">在线</div>
-            </div>
+            </header>
             <div class="card-body">
               <UserProfile />
             </div>
-          </div>
+          </article>
         </div>
 
         <!-- 分隔线 -->
@@ -70,12 +62,12 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
         </div>
 
         <!-- 视频播放区域 -->
-        <div class="video-section">
+        <section class="video-section">
           <div class="video-container">
-            <div class="video-header">
+            <header class="video-header">
               <h2 class="video-title">校园风采展示</h2>
               <p class="video-description">记录美好校园时光，分享精彩瞬间</p>
-            </div>
+            </header>
             <div class="video-player-wrapper">
               <MediaPlayer 
                 mediaSrc="../public/media/qzzg.mp4" 
@@ -84,22 +76,25 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
               />
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
-
-    <!-- 底部装饰 -->
-    <div class="bottom-decoration">
-      <div class="wave-animation"></div>
-    </div>
+    </section>
   </div>
 </template>
 
+<script setup>
+import Banner from '../../components/business/Banner.vue'
+import NewsCard from '../../components/business/NewsCard.vue'
+import UserProfile from '../../components/business/UserProfile.vue'
+import Clock from '../../components/business/Clock.vue'
+import MediaPlayer from '../../components/business/MediaPlayer.vue'
+</script>
+
 <style scoped>
-/* 整体布局 */
-.home {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+/* 整体页面样式 - 适配 MainLayout */
+.home-page {
+  width: 100%;
+  /* 移除 min-height 和背景，这些由 MainLayout 处理 */
   position: relative;
   overflow-x: hidden;
 }
@@ -107,8 +102,8 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
 /* 顶部横幅区域 */
 .banner-section {
   width: 100%;
-  padding: 20px 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  padding: 30px 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%);
 }
 
 .banner-wrapper {
@@ -121,7 +116,7 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
 
 /* 主要内容区域 */
 .main-content {
-  padding: 40px 0;
+  padding: 40px 0 60px; /* 底部留适当间距给 Footer */
 }
 
 .container {
@@ -260,17 +255,29 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
   background-clip: text;
 }
 
-/* 视频区域 */
+/* 视频区域 - 关键优化点 */
 .video-section {
-  margin-bottom: 80px;
+  margin-bottom: 0; /* 确保与 Footer 无间隙 */
 }
 
 .video-container {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  padding: 40px;
+  border-radius: 20px 20px 0 0; /* 底部圆角移除，与 Footer 更好衔接 */
+  padding: 40px 40px 60px; /* 底部增加 padding 作为视觉缓冲 */
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  position: relative;
+}
+
+/* 添加底部渐变过渡效果 */
+.video-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.05));
 }
 
 .video-header {
@@ -301,40 +308,6 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
-/* 底部装饰 */
-.bottom-decoration {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  overflow: hidden;
-}
-
-.wave-animation {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 200%;
-  height: 100px;
-  background: linear-gradient(90deg, 
-    rgba(231, 76, 60, 0.1), 
-    rgba(52, 152, 219, 0.1), 
-    rgba(231, 76, 60, 0.1)
-  );
-  border-radius: 50%;
-  animation: wave 8s ease-in-out infinite;
-}
-
-@keyframes wave {
-  0%, 100% {
-    transform: translateX(-50%) translateY(50px);
-  }
-  50% {
-    transform: translateX(-50%) translateY(20px);
-  }
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
   .cards-grid {
@@ -348,8 +321,9 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
   }
   
   .video-container {
-    padding: 20px;
+    padding: 20px 20px 40px;
     margin: 0 10px;
+    border-radius: 16px 16px 0 0;
   }
   
   .video-title {
@@ -381,7 +355,11 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
   }
   
   .video-container {
-    padding: 16px;
+    padding: 16px 16px 32px;
+  }
+
+  .main-content {
+    padding: 30px 0 40px;
   }
 }
 
