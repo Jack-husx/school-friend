@@ -16,7 +16,6 @@ dist-ssr/
 # Build directories
 build/
 out/
-public/
 
 # Environment variables
 .env
