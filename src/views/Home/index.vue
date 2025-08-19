@@ -79,7 +79,7 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
             <div class="video-player-wrapper">
               <!-- 地址修改 -->
               <MediaPlayer 
-                mediaSrc="/media/qzzg.mp4" 
+                mediaSrc="./media/qzzg.mp4" 
                 :isVideo="true" 
                 class="media-player" 
               />
