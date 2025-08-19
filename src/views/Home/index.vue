@@ -77,13 +77,12 @@ import MediaPlayer from '../../components/business/MediaPlayer.vue';
               <p class="video-description">记录美好校园时光，分享精彩瞬间</p>
             </div>
             <div class="video-player-wrapper">
-              <!-- 地址修改 -->
-              <MediaPlayer 
-                mediaSrc="./media/qzzg.mp4" 
-                :isVideo="true" 
-                class="media-player" 
-              />
-            </div>
+            <!-- 地址修改 -->
+            <MediaPlayer 
+            mediaSrc="/media/qzzg.mp4" 
+            :isVideo="true" 
+            class="media-player" />            
+          </div>
           </div>
         </div>
       </div>
