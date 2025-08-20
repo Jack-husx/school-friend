@@ -4,11 +4,15 @@
       <el-icon style="vertical-align: middle; margin-right: 10px;">
         <School />
       </el-icon>
-      <span>闻一多中学校友网</span>
+
+      <!-- 使用 el-tooltip 包裹文本，鼠标悬停/点击时显示完整标题 -->
+      <el-tooltip content="闻一多中学校友网" placement="bottom">
+        <span class="logo-text">闻一多中学校友网</span>
+      </el-tooltip>
     </div>
     
     <!-- 移动端汉堡菜单按钮 -->
-    <div class="mobile-menu-btn" @click="toggleMobileMenu">
+    <div class="mobile-menu-btn" @click="toggleMobileMenu" aria-label="打开菜单">
       <el-icon size="24">
         <Menu v-if="!mobileMenuOpen" />
         <Close v-else />
@@ -51,6 +55,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { School, Menu, Close } from '@element-plus/icons-vue'
+// 注意：el-tooltip 是 Element Plus 组件，若项目未全局注册 Element Plus 组件请按项目方式引入/注册
 
 const router = useRouter()
 const mobileMenuOpen = ref(false)
@@ -129,6 +134,18 @@ window.addEventListener('resize', () => {
   z-index: 1001;
 }
 
+/* 默认（桌面） logo 文本：单行显示，和原样一致 */
+.logo-text {
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px; /* 桌面下限制防止极窄窗口撑坏布局 */
+}
+
+/* 移动端汉堡菜单按钮 */
 .mobile-menu-btn {
   display: none;
   cursor: pointer;
@@ -225,7 +242,7 @@ window.addEventListener('resize', () => {
   display: none;
 }
 
-/* --- 移动端修改后的样式 --- */
+/* --- 移动端修改（仅影响 ≤768px） --- */
 @media (max-width: 768px) {
   .header {
     padding: 0 16px;
@@ -235,8 +252,18 @@ window.addEventListener('resize', () => {
   .logo {
     font-size: 20px;
   }
-  .logo span {
-    display: none;
+
+  /* 移动端：允许 logo 文本换行显示完整（最多2行），同时减小字体 */
+  .logo-text {
+    display: inline-block;
+    font-size: 14px;          /* 更小字体，便于完整显示 */
+    margin-left: 6px;
+    max-width: calc(100% - 54px); /* 留出图标和右侧汉堡空间 */
+    white-space: normal;      /* 允许换行 */
+    word-break: break-word;   /* 长词换行 */
+    line-height: 1.1;
+    overflow: visible;        /* 不用省略号，尽量显示全部 */
+    vertical-align: middle;
   }
 
   .mobile-menu-btn {
@@ -246,7 +273,7 @@ window.addEventListener('resize', () => {
     display: none;
   }
 
-  /* 右侧滑出改为底部抽屉效果 */
+  /* 右侧滑出改为底部抽屉效果（保持你现有移动端样式） */
   .nav {
     position: fixed;
     bottom: -100%;
@@ -271,6 +298,8 @@ window.addEventListener('resize', () => {
     width: 100%;
     padding: 0 20px;
     gap: 10px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .menu-item {
     width: 100%;
@@ -326,5 +355,14 @@ window.addEventListener('resize', () => {
     background: rgba(0,0,0,0.6);
     z-index: 999;
   }
+}
+
+/* 小屏幕微调（≤480px） */
+@media (max-width: 480px) {
+  .header { height: 54px; padding: 0 12px; }
+  .logo-text { font-size: 13px; max-width: calc(100% - 48px); }
+  .nav { height: 76%; }
+  .menu > li > a { font-size: 15px; }
+  .submenu li a { font-size: 13px; }
 }
 </style>
